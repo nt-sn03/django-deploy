@@ -1,12 +1,13 @@
-from django.http import HttpRequest, HttpResponse
-import json
-from pprint import pprint
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .bot import handle_udpate
 
 
-def webhook(request: HttpRequest) -> HttpResponse:
-    data = json.loads((request.body.decode()))
+class WebHookView(APIView):
 
-    handle_udpate(data)
+    def post(self, request: Request) -> Response:
+        handle_udpate(request.data)
 
-    return HttpResponse("Bot is runnning....")
+        return Response()
